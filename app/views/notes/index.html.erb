@@ -1,0 +1,29 @@
+<p style="color: green"><%= notice %></p>
+
+<div id="notes">
+  <div class="columns">
+    <div class="column">
+      <div class="box">
+        <h1 class="title is-5">All Notes</h1>
+        <% @all_notes.each do |note| %>
+          <div class="card block">
+            <%= render note %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  
+    <div class="column">
+      <div class="box">
+      <h1 class="title is-5">My Notes</h1>
+      <% @my_notes.each do |note| %>
+        <div class="card block">
+          <%= render note %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= link_to "New note", new_note_path %>

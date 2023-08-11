@@ -1,0 +1,10 @@
+<div class="card" id="<%= dom_id ability %>">
+  <header class="card-header">
+    <p class="card-header-title"><%= ability.name %> &nbsp;<%= link_to "| edit", edit_ability_path(ability) if accessible?(ability.character&.in_use_by_user_id) %></p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      <strong><%= "#{ability.uses.capitalize} #{ability.qualifier}," %></strong> <i><%= ability.condition %></i> <%= ability.effect %>
+    </div>
+  </div> 
+</div>

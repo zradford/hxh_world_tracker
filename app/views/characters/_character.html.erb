@@ -1,0 +1,107 @@
+<div class="card" id="<%= dom_id character %>">
+  <header class="card-header">
+    <p class="card-header-title"><%= link_to character.name.capitalize, character_path(character) %>, Level <%= character.level %> &nbsp;&nbsp;&nbsp; <%= link_to (character.in_use_by_user_id.nil? ? "( Claim! )" : "Edit"), edit_character_path(character) if accessible?(character.in_use_by_user_id) %></p>
+    <div class="card-content"><span class="icon-label">Stength:</span> <%= display_boxes_for(character.slice(:id, :strength, :in_use_by_user_id), "hearts", 10, { with_links: true }) %></div>
+  </header>
+  <div class="card-content">
+    <div class="columns"> 
+      <div class="column">
+        <span class="icon-label">Plot Armor:</span> <%= display_boxes_for(character.slice(:id, :plot_armor, :in_use_by_user_id), "stars", 7, { with_links: true }) %> 
+      </div>
+      <div class="column">
+        <span class="icon-label">Exp:</span> <%= display_boxes_for(character.slice(:id, :experience_points, :in_use_by_user_id), "squares",  6, {with_links: true }) %>
+      </div>
+      <% if character.experience_points == 6 %>
+        <div class="control">
+            <%= link_to "Level UP!", edit_character_path(character, leveling_up: true), class: "button is-link is-light" if accessible?(character.in_use_by_user_id) %>
+          </div>
+      <% end %>
+    </div>
+    <div class="columns">
+      <div class="column is-two-thirds">
+        <table class="table is-striped is-bordered is-fullwidth">
+          <tr>
+            <th></th>
+            <th>-1/0</th>
+            <th colspan=2 >+1</th>
+            <th colspan=2 >+2</th>
+            <th colspan=3 >+3</th>
+          </tr>
+          <tr>
+            <td>Will</td>
+            <%= display_boxes_for(character.slice(:id, :will)) %> 
+          </tr>
+          <tr>
+            <td>Move</td>
+            <%= display_boxes_for(character.slice(:id, :move)) %>
+          </tr>
+          <tr>
+            <td>Fight</td>
+            <%= display_boxes_for(character.slice(:id, :fight)) %>
+          </tr>
+          <tr>
+            <td>Sense</td>
+            <%= display_boxes_for(character.slice(:id, :sense)) %>
+          </tr>
+          <tr>
+            <td>Seek</td>
+            <%= display_boxes_for(character.slice(:id, :seek)) %>
+          </tr>
+        </table>
+      </div>
+      <div class="column is-one-third">
+        <table class="table is-bordered">
+        <tr><th>Variable-bonus Actions</th></tr>
+        <tr><td>
+          <ul>
+            <li>HELP</li>
+            <li>PERSUADE</li>
+            <li>SURVIVE</li>
+            <li>other..</li>
+          </ul>
+        </td></tr>
+        </table>
+      </div>
+    </div>
+    <% unless character.abilities.empty? %>
+      <%= link_to "Manage Abilities", edit_character_path(character, abilities: true) if character.used_by == current_user %>
+      <div class="columns is-multiline">
+        <% character.abilities.each do |ab| %>
+          <div class="column is-half">
+            <%= render "abilities/ability", ability: ab %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <div class="columns">
+      <div class="column">
+        <table class="table is-bordered is-fullwidth">
+          <tr><th><strong>Why</strong> are you taking the hunter exam?</th></tr>
+          <tr><td><%= character.motivation %></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <table class="table is-bordered is-fullwidth">
+          <tr><th>What is your character <strong>best</strong> at?</th></tr>
+          <tr><td><%= character.specialty %></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <table class="table is-bordered is-full-width">
+          <tr><th>Equipment</th></tr>
+          <tr><td><%= display_equipment(character.equipment) %></td></tr>
+        </table>
+      </div>
+      <div class="column">
+        <table class="table is-bordered is-full-width">
+          <tr><th>Friends</th></tr>
+          <tr><td>my friends</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

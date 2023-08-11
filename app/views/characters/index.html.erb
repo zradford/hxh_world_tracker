@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="columns is-multiline" id="characters">
+    <% unless @is_available %>
+      <div class="column">
+        <h1 class="title is-2">My Characters</h1>
+        <div class="columns is-multiline">
+          <% @my_characters.each do |character| %>
+            <div class="column"><%= render character %></div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="column">
+        <h1 class="title is-2">Team Characters</h1>
+        <div class="columns is-multiline">
+          <% @team_characters.each do |character| %>
+            <div class="column"><%= render character %></div>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <div class="column">
+        <h1 class="title is-2">Available Characters</h1>
+        <div class="columns is-multiline">
+          <% @available.each do |character| %>
+            <div class="column"><%= render character %></div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "New character", new_character_path, class: "button" %>
+</div>

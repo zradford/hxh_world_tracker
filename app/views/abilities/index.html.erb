@@ -1,0 +1,11 @@
+<div class="container">
+  <h1 class="title">Abilities</h1>
+
+  <div class="columns is-multiline" id="abilities">
+    <% @abilities.each do |ability| %>
+      <div class="column is-one-quarter"><%= render ability %></div>
+    <% end %>
+  </div>
+
+  <%= link_to "New ability", new_ability_path, class: "button" %>
+</div>

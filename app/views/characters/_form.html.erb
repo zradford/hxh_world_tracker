@@ -1,0 +1,162 @@
+<%= form_with(model: character) do |form| %>
+  <% if character.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(character.errors.count, "error") %> prohibited this character from being saved:</h2>
+
+      <ul>
+        <% character.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<script>
+  function getStatSum(numberInputs) {
+    return Array.from(numberInputs).map( input => input.value)
+                          .reduce((partialSum, a) => partialSum + parseInt(a), 0); 
+  }
+
+  function setFieldMax(field) {
+    field.max = field.value
+  }
+  function resetFieldsMaxes(fields) {
+    originalValues = <%= character.stats.values %>
+    for (let i = 0; i < Array.from(fields).length; i++) {  
+      fields[i].max = (originalValues[i] < 4 ? 4 : originalValues[i] )
+    }
+  }
+
+  function updateTable() {
+    var stats = document.querySelectorAll('input[type="number"]');
+    var statTotal = getStatSum(stats)
+    document.getElementById('action-point-sum').innerHTML = statTotal
+      if( <%= Character.action_points_for_level(character.level) %> == statTotal) {
+        for (const i of Array.from(stats)) {  
+          setFieldMax(i)
+        }
+      } else {
+        resetFieldsMaxes(stats)
+      }
+    }
+  
+</script>
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <div class="card" id="<%= dom_id character %>">
+      <header class="card-header">
+        <div class="columns">
+          <div class="column is-half">
+            <%= form.text_field :name, placeholder: character.name.capitalize, class: "input is-rounded" %> 
+          </div>
+          <div class="card-content">
+            <span class="icon-label">Strength:&nbsp;</span><%= display_boxes_for(character.slice(:id, :strength), "hearts", 10)%>
+          </div>
+        </div>
+      </header>
+      <div class="card-content">
+        <div class="columns"> 
+          <div class="column">
+            <span class="icon-label">Plot Armor:&nbsp;</span><%= display_boxes_for(character.slice(:id, :plot_armor), "stars", 7)%>
+          </div>
+          <div class="column">
+            <span class="icon-label">EXP:&nbsp;</span><%= display_boxes_for(character.slice(:id, :experience_points), "squares", 6)%>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column is-two-thirds">
+            <table class="table is-striped is-bordered is-fullwidth">
+            <% unbalanced_ap = Character.action_points_for_level(character.level) != character.stats.values.sum %>
+            <% if unbalanced_ap %>
+              <tr>
+                <th colspan=9>Required AP total: <%= Character.action_points_for_level(character.level) %></th>
+              </tr>
+            <% end %>
+              <tr>
+                <th></th>
+                <th>0/1 AP</th>
+                <th colspan=2 >2-3 AP</th>
+                <th colspan=2 >4-5 AP</th>
+                <th colspan=3 >6-8 AP</th>
+              </tr>
+              <% @character.stats.each do |stat, ap| %>
+                <% max = @leveling_up ? ap + 1 : 4 %>
+                <tr>
+                  <td><%= stat.capitalize %></td>
+                  <td colspan=8><%= form.number_field stat.to_sym, min: 0,max: max, onclick: "updateTable()"  %></td>
+                </tr>
+              <% end %>
+              <% if unbalanced_ap %>
+                <tr>
+                  <td>AP Sum:</td>
+                  <td colspan=8 id="action-point-sum"><%= character.stats.values.sum %></td>
+                </tr>
+              <% end %>
+            </table> 
+          </div>
+          <div class="column is-one-third">
+            <table class="table is-bordered">
+            <tr><th>Variable-bonus Actions</th></tr>
+            <tr><td>
+              <ul>
+                <li>HELP</li>
+                <li>PERSUADE</li>
+                <li>SURVIVE</li>
+                <li>other..</li>
+              </ul>
+            </td></tr>
+            </table>
+          </div>
+        </div>
+        
+        <div class="select is-multiple" >
+          <%= form.select :ability_ids, options_from_collection_for_select(Ability.where(character_id: nil), :id, :name), { :prompt => "Select Abilities" }, { :multiple => true, :size => 5 }%>
+        </div>
+
+        <% unless character.abilities.empty? %>
+          <div class="columns is-multiline">
+            <% character.abilities.each do |ab| %>
+              <div class="column is-half">
+                <%= render "abilities/ability", ability: ab %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="columns">
+          <div class="column">
+            <table class="table is-bordered is-fullwidth">
+              <tr><th><strong>Why</strong> are you taking the hunter exam?</th></tr>
+              <tr><td><%= form.text_area :motivation, class: "textarea" %></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <table class="table is-bordered is-fullwidth">
+              <tr><th>What is your character <strong>best</strong> at?</th></tr>
+              <tr><td><%= form.text_area :specialty, class: "textarea" %></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <table class="table is-bordered is-fullwidth">
+              <tr><th>Equipment (seperate with commas)</th></tr>
+              <tr><td><%= form.text_area :equipment, class: "textarea" %></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <%= form.submit "Finish", class:"button is-link" %>
+          </div>
+          <% unless @leveling_up %>
+            <div class="control">
+              <%= link_to "Cancel", characters_path, class: "button is-link is-light" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %> 

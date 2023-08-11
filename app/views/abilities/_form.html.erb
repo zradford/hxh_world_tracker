@@ -1,0 +1,60 @@
+<%= form_with(model: ability) do |form| %>
+  <% if ability.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(ability.errors.count, "error") %> prohibited this ability from being saved:</h2>
+
+      <ul>
+        <% ability.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="columns">
+    <div class="column box is-half is-offset-one-quarter">
+
+      <div class="field">
+        <div class="control">
+          <%= form.label :name, class: "label" %>
+          <%= form.text_field :name, class: "input" %>  
+        </div>
+      </div>
+
+
+      <div class="select"><%= form.select :uses, Ability::USES << nil, {:prompt => "Amount" } %></div> 
+      <div class="select"><%= form.select :qualifier, Ability::QUALIFIERS << nil, {prompt: "Per.."} %></div>
+      <p class="help">^^Select the blank options if you want a passive ability!^^</p>
+
+
+      <div class="field">
+        <div class="control">
+          <%= form.label :condition, class: "label" %>
+          <%= form.text_field :condition, class: "input" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <%= form.label :effect, class: "label" %>
+          <%= form.text_area :effect, class: "textarea" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="select">
+          <% options = Character.where(in_use_by_user_id: current_user.id) if current_user.player? %>
+          <% options = Character.where.not(in_use_by_user_id: nil ) if current_user.admin? %>
+
+          <%= form.select :character_id, options_from_collection_for_select(options, :id, :name), { :prompt => "Add To Character?" }%>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <%= form.submit "Create", class: "button" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

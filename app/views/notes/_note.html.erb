@@ -1,0 +1,8 @@
+<div id="<%= dom_id note %>">
+  <div class="card-header-title">
+    <%= note.title %> &nbsp;<%= link_to " |  Edit", edit_note_path(note) if accessible?(note.user_id) %>
+  </div>
+  <div class="card-content">
+    <p><%= note.body %></p>
+  </div>
+</div>
