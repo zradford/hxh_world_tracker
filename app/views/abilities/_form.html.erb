@@ -22,8 +22,8 @@
       </div>
 
 
-      <div class="select"><%= form.select :uses, Ability::USES << nil, {:prompt => "Amount" } %></div> 
-      <div class="select"><%= form.select :qualifier, Ability::QUALIFIERS << nil, {prompt: "Per.."} %></div>
+      <div class="select"><%= form.select :uses, Ability::USES, {:prompt => "Amount", include_blank: true } %></div> 
+      <div class="select"><%= form.select :qualifier, Ability::QUALIFIERS, {prompt: "Per..", include_blank: true} %></div>
       <p class="help">^^Select the blank options if you want a passive ability!^^</p>
 
 
