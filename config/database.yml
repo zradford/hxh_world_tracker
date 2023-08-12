@@ -18,5 +18,6 @@ test:
 production:
   <<: *default
   database: hxh_world_4_production
-  username: hxh_admin
+  username: postgres
   password: <%= ENV['PROD_DB_PASS'] %>
+  hostname: <%= ENV['HOSTNAME'] %>
