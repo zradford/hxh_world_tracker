@@ -9,6 +9,9 @@ class NotesController < ApplicationController
 
   # GET /notes/1 or /notes/1.json
   def show
+    unless @note.user == current_user || current_user.admin?
+      redirect_to notes_path
+    end
   end
 
   # GET /notes/new
