@@ -39,6 +39,10 @@ class CharactersController < ApplicationController
     @character = Character.new(character_params)
     @character.created_by_user_id = current_user.id
 
+    if current_user.characters.count == 0
+      @character.in_use_by_user_id = current_user.id
+    end
+
     respond_to do |format|
       if @character.save
         format.html { redirect_to character_url(@character), notice: "Character was successfully created." }

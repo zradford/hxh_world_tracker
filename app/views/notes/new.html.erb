@@ -1,9 +1,11 @@
-<h1>New note</h1>
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter">
+    <%= render "form", note: @note %>
 
-<%= render "form", note: @note %>
+    <br>
 
-<br>
-
-<div>
-  <%= link_to "Back to notes", notes_path %>
+    <div>
+      <%= link_to "Back to notes", notes_path %>
+    </div>
+  </div>
 </div>
