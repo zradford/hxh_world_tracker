@@ -4,7 +4,11 @@
   </header>
   <div class="card-content">
     <div class="content">
-      <strong><%= "#{ability.uses.capitalize} #{ability.qualifier}," %></strong> <i><%= ability.condition %></i> <%= ability.effect %>
+      <% if ability.is_passive? %>
+        <i><%= ability.condition %></i> <%= ability.effect %>
+      <% else %>
+        <strong><%= "#{ability.uses.capitalize} #{ability.qualifier}," %></strong> <i><%= ability.condition %></i> <%= ability.effect %>
+      <% end %>
     </div>
   </div> 
 </div>

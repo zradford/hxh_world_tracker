@@ -3,7 +3,7 @@
 <%= render @ability %>
 
 <div class="container is-offset-one-quarter">
-  <%= link_to "Edit this ability", edit_ability_path(@ability) if current_user.admin? || @ability&.character.in_use_by_user_id == current_user.id %> |
+  <%= link_to "Edit this ability", edit_ability_path(@ability) if accessible?(@ability.character_id) %> |
   <%= link_to "Back to abilities", abilities_path %>
 
   <%= button_to "Destroy this ability", @ability, method: :delete if current_user.admin? %>

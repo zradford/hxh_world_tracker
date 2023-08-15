@@ -1,8 +1,8 @@
 module ApplicationHelper
 
-  def accessible?(associated_user_id = nil)
+  def accessible?(associated_id = nil)
     # if you are an admin, if this is your object, or if this object is not in use you can access
-    return current_user.admin? || associated_user_id == current_user.id || associated_user_id.nil?
+    return current_user.admin? || associated_id == current_user.id || associated_id.nil?
   end
 
   def display_boxes_for(record, box_shape = "circles", max = 8, *args)
