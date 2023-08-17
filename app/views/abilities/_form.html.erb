@@ -44,7 +44,7 @@
       <div class="field">
         <div class="select">
           <% options = Character.where(in_use_by_user_id: current_user.id) if current_user.player? %>
-          <% options = Character.where.not(in_use_by_user_id: nil ) if current_user.admin? %>
+          <% options = Character.all if current_user.admin? %>
 
           <%= form.select :character_id, options_from_collection_for_select(options, :id, :name), { :prompt => "Add To Character?" }%>
         </div>
