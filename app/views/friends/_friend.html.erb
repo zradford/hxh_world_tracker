@@ -1,0 +1,23 @@
+
+
+
+<div id="<%= dom_id friend %>">
+  <div class="card">
+    <header class="card-content">
+      <p class="title"><%= friend.name.capitalize %>&nbsp;-&nbsp;<%= friend.bonus %></p>
+      <p class="subtitle">Location: <%= friend.location %> | Availability: <%= friend.availability %></p>
+    </header>
+    <div class="content">
+        <% if current_user.admin? %>
+          <strong>Nen notes:</strong><%= friend.nen_notes %>
+        <% end %>
+        <strong>Occupied With:</strong><%= friend.occupied_with %>
+        <strong>Equipment:</strong><%= friend.equipment %>
+        <strong>Notes:</strong><%= friend.notes %>
+        <strong>Appearance:</strong><%= friend.appearance %>
+    </div>
+    <div class="card-footer">
+      <%= link_to "Edit", edit_friend_path(friend) %>
+    </div>
+  </div>
+</div>

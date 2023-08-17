@@ -1,8 +1,8 @@
 <p style="color: green"><%= notice %></p>
+<div class="container is-offset-4">
 
-<%= render @ability %>
+  <%= render @ability %>
 
-<div class="container is-offset-one-quarter">
   <%= link_to "Edit this ability", edit_ability_path(@ability) if accessible?(@ability.character_id) %> |
   <%= link_to "Back to abilities", abilities_path %>
 

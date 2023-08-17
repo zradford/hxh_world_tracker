@@ -1,0 +1,17 @@
+<div class="column">
+  <h1 class="title is-2">My Characters</h1>
+  <div class="columns is-multiline">
+    <% my_characters.each do |character| %>
+      <div class="column"><%= render character %></div>
+    <% end %>
+  </div>
+</div>
+
+<div class="column">
+  <h1 class="title is-2">Team Characters</h1>
+  <div class="columns is-multiline">
+    <% team_characters.each do |character| %>
+      <div class="column"><%= render character %></div>
+    <% end %>
+  </div>
+</div>

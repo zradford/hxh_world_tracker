@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_181459) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_16_212726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_181459) do
     t.bigint "in_use_by_user_id"
     t.integer "ability_count", default: 4
     t.index ["in_use_by_user_id"], name: "index_characters_on_in_use_by_user_id"
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "appearance"
+    t.text "notes"
+    t.string "occupied_with"
+    t.string "location"
+    t.text "equipment"
+    t.text "nen_notes"
+    t.integer "bonus", default: 0
+    t.boolean "available"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "notes", force: :cascade do |t|

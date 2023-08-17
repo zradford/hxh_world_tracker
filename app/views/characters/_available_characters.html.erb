@@ -1,0 +1,8 @@
+<div class="column">
+  <h1 class="title is-2">Available Characters</h1>
+  <div class="columns is-multiline">
+    <% available.each do |character| %>
+      <div class="column"><%= render character %></div>
+    <% end %>
+  </div>
+</div>

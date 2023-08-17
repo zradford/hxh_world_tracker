@@ -1,0 +1,79 @@
+<%= form_with(model: friend) do |form| %>
+  <% if friend.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(friend.errors.count, "error") %> prohibited this friend from being saved:</h2>
+
+      <ul>
+        <% friend.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="box">
+    <div class="columns">
+      <div class="column">
+        <div class="field is-grouped">
+          <div class="control is-expanded">
+            <%= form.label :name, class: "label" %>
+            <%= form.text_field :name, class: "input" %>
+          </div>
+          <fieldset <%= "disabled" unless current_user.admin? %>>
+            <div class="control is-expanded">
+              <%= form.label :bonus, class: "label" %>
+              <%= form.number_field :bonus, class: "input" %>
+            </div >
+          </fieldset>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control is-expanded">
+            <%= form.label :location, class: "label" %>
+            <%= form.text_field :location, class: "input" %>
+          </div>
+          <div class="control is-expanded">
+            <%= form.label :occupied_with, class: "label" %>
+            <%= form.text_field :occupied_with, class: "input" %>
+          </div >
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <%= form.label :appearance, class: "label" %>
+          <%= form.text_area :appearance, class: "textarea" %>
+        </div>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <div class="field">
+          <div class="control">
+            <%= form.label :notes, class: "label" %>
+            <%= form.text_area :notes, class: "textarea" %>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <div class="control">
+            <%= form.label "Equipment (seperate with commas)", class: "label" %>
+            <%= form.text_area :equipment, class: "textarea" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if current_user.admin? %>
+      <div class="field">
+        <%= form.label :nen_notes, class: "label" %>
+        <%= form.text_area :nen_notes, class: "textarea" %>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.submit "Submit", class: "button" %>
+    </div>
+  </div>
+
+  <% end %>

@@ -1,0 +1,11 @@
+
+
+<div id="friends" class="columns is-multiline m-4">
+  <% @friends.each do |friend| %>
+    <div class="column is-one-third"><%= render friend %></div>
+  <% end %>
+</div>
+
+<div class="new-button">
+  <%= link_to "New friend", new_friend_path, class: "button is-primary" %>
+</div>
